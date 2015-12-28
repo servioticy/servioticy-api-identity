@@ -16,3 +16,5 @@ target/
 .settings/
 .project
 .DS_Store
+
+config.properties

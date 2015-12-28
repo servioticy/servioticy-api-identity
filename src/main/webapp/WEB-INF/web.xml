@@ -12,6 +12,10 @@
             <param-name>jersey.config.server.provider.packages</param-name>
             <param-value>com.servioticy.api.identity</param-value>
         </init-param>
+        <init-param>
+            <param-name>javax.ws.rs.container.ContainerResponseFilter</param-name>
+            <param-value>com.servioticy.api.identity.utils.IdentityResponseFilter</param-value>
+        </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
 
@@ -20,8 +24,8 @@
         <url-pattern>/*</url-pattern>
     </servlet-mapping>
 
-  <listener>
-    <listener-class>com.servioticy.api.identity.utils.Config</listener-class>
-  </listener>
+    <listener>
+        <listener-class>com.servioticy.api.identity.utils.Config</listener-class>
+    </listener>
 
 </web-app>
