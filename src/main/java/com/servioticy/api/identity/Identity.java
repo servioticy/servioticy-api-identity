@@ -10,14 +10,15 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 
 import com.servioticy.api.identity.exceptions.IdentityWebApplicationException;
-import com.servioticy.api.identity.utils.Config;
+ import com.servioticy.api.identity.utils.Config;
 
-@Path("/identity")
+
+@Path("/")
 public class Identity {
 
     @Path("/{userMail}")
     @GET
-    public Response getAuthToken(@Context HttpHeaders hh, @PathParam("userMail") String userMail) {
+    public Response getOrpostAuthToken(@Context HttpHeaders hh, @PathParam("userMail") String userMail) {
         String response = null;
 
         try {
@@ -30,4 +31,20 @@ public class Identity {
         return Response.ok(response).build();
     }
 
+    @Path("/auth/{userId}")
+    @GET
+    public Response getAuthToken(@Context HttpHeaders hh, @PathParam("userId") String userId, String body) {
+        String response = null;
+
+        try {
+            response = Config.mySQL.userIdGetToken(userId);
+            if (response == null)
+                throw new IdentityWebApplicationException(Response.Status.BAD_REQUEST, "User does not exist");
+        } catch (SQLException e) {
+            throw new IdentityWebApplicationException(Response.Status.BAD_REQUEST,
+                                                      "SQLException: " + e.getMessage());
+        }
+
+        return Response.ok(response).build();
+    }
 }

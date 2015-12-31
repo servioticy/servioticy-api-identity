@@ -1,22 +1,24 @@
 package com.servioticy.api.identity.utils;
 
-import java.io.IOException;
 import java.util.Date;
 
-import javax.ws.rs.container.ContainerRequestContext;
-import javax.ws.rs.container.ContainerResponseContext;
-import javax.ws.rs.container.ContainerResponseFilter;
 import javax.ws.rs.ext.Provider;
+
+import com.sun.jersey.spi.container.ContainerRequest;
+import com.sun.jersey.spi.container.ContainerResponse;
+import com.sun.jersey.spi.container.ContainerResponseFilter;
 
 @Provider
 public class IdentityResponseFilter implements ContainerResponseFilter{
 
     @Override
-    public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext)
-            throws IOException {
+    public ContainerResponse filter(ContainerRequest request, ContainerResponse response) {
         
-        responseContext.getHeaders().add("Server", "api.servIoTicy.identity");
-        responseContext.getHeaders().add("Date", new Date(System.currentTimeMillis()));
+        response.getHttpHeaders().add("Server", "api.servIoTicy.identity");
+        response.getHttpHeaders().add("Date", new Date(System.currentTimeMillis()));
+        
+        return response;
     }
+    
 }
 
